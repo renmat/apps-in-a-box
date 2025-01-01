@@ -98,4 +98,23 @@ public class BootSpark {
     
 	}
 
+	public static void createLocalClusterAndRunJob(Class<?> mainClass, int numberOfWorkersN, int coresPerWorkerC,
+			int memoryinMbPerWorkerM) throws IOException, URISyntaxException {
+		String masterUrl = "local-cluster[" + numberOfWorkersN + "," + coresPerWorkerC + "," + memoryinMbPerWorkerM
+				+ "]";
+		submitJob(mainClass, masterUrl);
+	}
+	
+	public static void submitJob(Class<?> mainClass, String masterUrl) throws IOException, URISyntaxException {
+		File jarFile = new File(mainClass.getProtectionDomain().getCodeSource().getLocation().toURI());
+		String[] submitArgs = new String[] {
+				"--class",mainClass.getName(),
+				"--master",masterUrl,
+				"--deploy-mode","client", //client = driver runs on client, cluster = driver runs on cluster
+				"--jars",jarFile.getAbsolutePath(), //additional jars in classpath, using app jar as example
+				jarFile.getAbsolutePath(),
+				"jobarg1","jobarg2"};
+		org.apache.spark.deploy.SparkSubmit.main(submitArgs);
+	}
+	
 }
