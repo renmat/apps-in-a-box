@@ -14,3 +14,12 @@ CREATE TABLE s124_agent_activity (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (session_id) REFERENCES s123_agent_session(id)
 );
+
+
+CREATE TABLE s125_activity_outbox (
+    idempotency_token VARCHAR(36) NOT NULL DEFAULT RANDOM_UUID() PRIMARY KEY,
+    activity_message json,
+    partition_id INT,
+    opt_counter INT,
+    activity_status VARCHAR(1)
+);

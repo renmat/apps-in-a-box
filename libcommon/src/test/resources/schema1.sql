@@ -33,3 +33,12 @@ CREATE TABLE r126_agent_environment (
     FOREIGN KEY (agent_id) REFERENCES r123_agent(id),
     FOREIGN KEY (environment_id) REFERENCES r125_environment(id)
 );
+
+
+CREATE TABLE r127_app_event (
+    id1 VARCHAR(36) NOT NULL DEFAULT RANDOM_UUID(),
+    id2 VARCHAR(36) NOT NULL DEFAULT RANDOM_UUID(),
+    id3 VARCHAR(36) NOT NULL DEFAULT RANDOM_UUID(),
+    event_data JSON,
+    constraint pk_r127 PRIMARY KEY (id1,id2,id3)
+);
